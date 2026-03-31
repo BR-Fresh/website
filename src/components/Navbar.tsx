@@ -1,40 +1,33 @@
 import { Link } from 'react-router-dom';
+import logo from '../assets/icon transparent.png';
 
-interface NavbarProps {
-  showSearch?: boolean;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ showSearch = true }) => {
+const Navbar: React.FC = () => {
   return (
-    <nav className="fixed top-0 w-full h-[72px] z-50 bg-white backdrop-blur-md shadow-sm">
-      <div className="flex justify-between items-center px-6 h-full max-w-7xl mx-auto">
-        <div className="flex items-center gap-3">
-          <button className="p-2 -ml-2 active:scale-95 transition-transform">
-            <span className="material-symbols-outlined text-primary">menu</span>
-          </button>
-          <Link to="/" className="text-2xl font-bold text-emerald-900 tracking-tight font-headline">
-            BR Fresh
-          </Link>
-        </div>
-        
-        {showSearch && (
-          <div className="hidden md:flex items-center bg-surface-container px-4 py-2 rounded-full w-80 group focus-within:ring-2 ring-primary/20 transition-all">
-            <span className="material-symbols-outlined text-outline text-lg mr-2">search</span>
-            <input className="bg-transparent border-none focus:ring-0 text-sm w-full p-0" placeholder="Search for groceries..." type="text" />
-          </div>
-        )}
+    <nav className="fixed top-0 w-full h-[72px] z-50 bg-white shadow-sm border-none">
+      <div className="flex justify-between items-center px-6 w-full max-w-7xl mx-auto h-full">
+        {/* Left: Logo */}
+        <Link to="/" className="flex items-center h-full group">
+          <img src={logo} alt="BR Fresh Logo" className="h-[116px] w-auto object-contain transition-transform group-active:scale-95" />
+        </Link>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-6 font-headline font-medium mr-4">
-            <Link className="text-neutral-600 hover:bg-neutral-50 transition-colors" to="/">Home</Link>
-            <Link className="text-neutral-600 hover:bg-neutral-50 transition-colors" to="/orders">Orders</Link>
-          </div>
-          <button className="p-2 hover:bg-neutral-50 rounded-full relative">
-            <span className="material-symbols-outlined text-neutral-600">shopping_cart</span>
-            <span className="absolute -top-1 -right-1 bg-secondary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+        {/* Center: Location Selector */}
+        <div className="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full cursor-pointer hover:bg-surface-container transition-colors group">
+          <span className="material-symbols-outlined text-primary mr-2">location_on</span>
+          <span className="text-sm font-medium text-on-surface">Delivering to: <span className="text-primary">Sector 21, Chandigarh</span></span>
+          <span className="material-symbols-outlined text-outline ml-1 group-hover:translate-y-0.5 transition-transform">expand_more</span>
+        </div>
+
+        {/* Right: Actions */}
+        <div className="flex items-center gap-6">
+          <button className="flex items-center text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors">
+            <span className="material-symbols-outlined">search</span>
           </button>
-          <button className="px-5 py-2 bg-primary text-white font-headline font-bold rounded-full text-sm active:scale-95 transition-transform">
-            Login
+          <button className="hidden md:block px-5 py-2 border-2 border-primary text-primary font-bold rounded-lg hover:bg-primary hover:text-white transition-all active:scale-95">
+            Login/Signup
+          </button>
+          <button className="relative flex items-center text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors">
+            <span className="material-symbols-outlined">shopping_cart</span>
+            <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
           </button>
         </div>
       </div>

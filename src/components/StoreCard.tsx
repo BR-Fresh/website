@@ -12,8 +12,8 @@ interface StoreCardProps {
 
 const StoreCard: React.FC<StoreCardProps> = ({ id, name, distance, time, image, rating, categories }) => {
   return (
-    <Link to={`/store/${id}`} className="bg-surface-container-lowest p-4 rounded-[28px] shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group h-full flex flex-col">
-      <div className="relative h-48 overflow-hidden rounded-2xl mb-4">
+    <Link to={`/store/${id}`} className="bg-surface-container-lowest p-4 rounded-[12px] shadow-[0px_12px_32px_rgba(28,28,24,0.06)] border-none hover:shadow-[0px_16px_48px_rgba(28,28,24,0.1)] transition-all group h-full flex flex-col">
+      <div className="relative h-48 overflow-hidden rounded-lg mb-4 bg-surface-container">
         <img alt={name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" src={image} />
         <div className="absolute top-4 left-4">
           <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Open</span>
