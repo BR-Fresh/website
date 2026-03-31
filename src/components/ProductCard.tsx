@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, unit, icon, 
         
         {qty === 0 ? (
           <button 
-            onClick={() => addToCart({ id, name, price })}
+            onClick={() => addToCart({ id, name, price, image, unit })}
             className="flex items-center justify-center bg-primary border-none text-white w-[70px] h-[32px] rounded-lg font-headline font-extrabold text-[10px] hover:opacity-90 transition-all active:scale-95 uppercase shadow-sm"
           >
             Add
@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, unit, icon, 
             </button>
             <span className="text-[11px] font-bold font-headline select-none w-1/3 text-center bg-white h-full flex items-center justify-center text-primary">{qty}</span>
             <button 
-              onClick={() => addToCart({ id, name, price })}
+              onClick={() => addToCart({ id, name, price, image, unit })}
               className="w-1/3 h-full flex items-center justify-center bg-primary/10 text-primary hover:bg-primary/20 transition-all font-bold"
             >
               <span className="material-symbols-outlined text-[14px]">add</span>

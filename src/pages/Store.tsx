@@ -106,6 +106,7 @@ const Store = () => {
                 {filteredProducts.map(p => (
                   <ProductCard 
                     key={p.id}
+                    id={p.id}
                     name={p.name} 
                     price={p.price} 
                     unit={p.unit} 

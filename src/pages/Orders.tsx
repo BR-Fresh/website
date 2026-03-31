@@ -1,138 +1,183 @@
-import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Orders = () => {
+  const navigate = useNavigate();
+  const { cart, totalItems, removeFromCart, addToCart } = useCart();
+  const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+  const gst = Math.round(subtotal * 0.05);
+  const deliveryFee = 0; // FREE as per screenshot
+  const grandTotal = subtotal + gst + deliveryFee;
+
   return (
-    <div className="bg-surface font-body text-on-surface antialiased min-h-screen">
+    <div className="bg-[#F8F9F8] font-body text-on-surface antialiased min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="pt-[104px] pb-24 max-w-7xl mx-auto px-6 font-body">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12 items-start">
-          {/* Left Sidebar: Tonal Navigation Layering */}
-          <aside className="w-full lg:w-[280px] shrink-0 sticky top-[104px]">
-            <div className="bg-surface-container rounded-[12px] p-4 shadow-sm space-y-1.5 border-none transition-all">
-              <div className="px-5 py-4 mb-3">
-                <p className="text-[10px] font-extrabold text-outline uppercase tracking-[0.2em]">Dashboard</p>
-              </div>
-              <Link className="flex items-center gap-4 px-5 py-4 rounded-xl text-on-surface-variant font-bold hover:bg-surface hover:text-on-surface transition-all text-lg" to="#">
-                <span className="material-symbols-outlined text-2xl">person</span>
-                <span>Profile Settings</span>
-              </Link>
-              <Link className="flex items-center gap-4 px-5 py-4 rounded-xl bg-surface-container-lowest text-primary font-extrabold shadow-[0px_8px_24px_rgba(28,28,24,0.04)] transition-all text-lg" to="/orders">
-                <span className="material-symbols-outlined text-2xl" style={{fontVariationSettings: "'FILL' 1"}}>package</span>
-                <span>My Harvests</span>
-              </Link>
-              <Link className="flex items-center gap-4 px-5 py-4 rounded-xl text-on-surface-variant font-bold hover:bg-surface hover:text-on-surface transition-all text-lg" to="#">
-                <span className="material-symbols-outlined text-2xl">location_on</span>
-                <span>Addresses</span>
-              </Link>
-              <div className="h-0.5 bg-surface-container-highest/20 my-6 mx-5"></div>
-              <Link className="flex items-center gap-4 px-5 py-4 rounded-xl text-error font-extrabold hover:bg-error-container/20 transition-all text-lg" to="#">
-                <span className="material-symbols-outlined text-2xl">logout</span>
-                <span>Logout</span>
-              </Link>
-            </div>
-          </aside>
+      <main className="flex-grow pt-[100px] pb-20">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="mb-12">
+            <h1 className="text-[44px] font-extrabold text-[#004D2C] font-headline tracking-tight leading-tight">Your cart</h1>
+            <p className="text-lg font-bold text-outline-variant">({totalItems} items)</p>
+          </div>
 
-          {/* Main Content: Editorial Order History */}
-          <section className="flex-1">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16 px-4">
-              <div>
-                <h1 className="text-5xl md:text-7xl font-extrabold text-primary font-headline tracking-tighter mb-4 leading-none">Experience <br/>History.</h1>
-                <p className="text-xl text-on-surface-variant font-medium leading-relaxed">Manage your recent farm-fresh pickups and pending deliveries.</p>
-              </div>
-              <div className="inline-flex bg-surface-container p-1.5 rounded-xl self-start md:self-end">
-                <button className="px-8 py-3 rounded-xl bg-surface-container-lowest shadow-[0px_4px_16px_rgba(28,28,24,0.06)] text-primary font-extrabold text-base transition-all">Full Log</button>
-                <button className="px-8 py-3 rounded-xl text-on-surface-variant hover:text-primary font-bold text-base transition-all">Tracking</button>
-              </div>
-            </div>
+          <div className="flex flex-col lg:flex-row gap-10">
+            {/* Left Column: Items and Store Info */}
+            <div className="flex-grow lg:w-[65%]">
+              <div className="bg-[#F3F5F2] rounded-[24px] p-8 border border-surface-container/30">
+                <div className="flex items-center gap-3 mb-8">
+                  <span className="material-symbols-outlined text-[#004D2C] text-[32px]">storefront</span>
+                  <h2 className="text-xl font-extrabold font-headline text-on-surface">Sharma General Store</h2>
+                </div>
 
-            {/* Ambient Order Cards */}
-            <div className="space-y-10">
-              {/* Order Card: Sharma Store */}
-              <div className="bg-surface-container-lowest rounded-[12px] p-8 shadow-[0px_12px_32px_rgba(28,28,24,0.06)] transition-all hover:shadow-[0px_16px_48px_rgba(28,28,24,0.1)] group border-none">
-                <div className="flex flex-col lg:flex-row gap-10">
-                  <div className="lg:w-[280px]">
-                    <h3 className="text-2xl font-extrabold text-on-surface font-headline mb-2 tracking-tight">Sharma General Store</h3>
-                    <p className="text-base text-outline-variant font-bold mb-6 font-headline tracking-wide">Placed Oct 24, 2024</p>
-                    <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-secondary-container/10 text-on-secondary-container text-xs font-extrabold uppercase tracking-widest border border-secondary-container/20">
-                      <span className="material-symbols-outlined text-[18px]" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
-                      Delivered
-                    </span>
-                  </div>
-                  <div className="flex-1 space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="flex items-center gap-4 bg-surface-container/50 p-4 rounded-xl">
-                        <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center text-3xl shadow-sm">🍅</div>
-                        <div>
-                          <p className="text-base font-extrabold text-on-surface">Farm Tomatoes</p>
-                          <p className="text-xs font-bold text-outline-variant uppercase">1 kg bundle</p>
-                        </div>
+                <div className="space-y-4 mb-10">
+                  {cart.map((item) => (
+                    <div key={item.id} className="bg-white rounded-[16px] p-6 flex flex-col sm:flex-row items-center gap-6 shadow-sm group">
+                      <div className="w-[100px] h-[100px] rounded-xl bg-surface-container flex-shrink-0 relative overflow-hidden">
+                        <img 
+                          src={item.image || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=200"} 
+                          className="w-full h-full object-contain" 
+                          alt={item.name} 
+                        />
                       </div>
-                      <div className="flex items-center gap-4 bg-surface-container/50 p-4 rounded-xl">
-                        <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center text-3xl shadow-sm">🥦</div>
-                        <div>
-                          <p className="text-base font-extrabold text-on-surface">Organic Broccoli</p>
-                          <p className="text-xs font-bold text-outline-variant uppercase">Single head</p>
+                      
+                      <div className="flex-grow">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="text-xl font-extrabold font-headline text-[#004D2C] mb-0.5">{item.name}</h3>
+                            <p className="text-sm font-bold text-outline-variant">{item.unit || '500ml'}</p>
+                          </div>
+                          <div className="text-right">
+                             <p className="text-xl font-extrabold font-headline text-[#004D2C]">Rs.{item.price * item.qty}</p>
+                             <p className="text-xs font-bold text-outline-variant line-through opacity-70">Rs.{item.price * item.qty + 10}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 mt-6">
+                          <div className="flex items-center bg-[#E8EAE7] rounded-xl overflow-hidden h-[44px]">
+                            <button 
+                              onClick={() => removeFromCart(item.id)}
+                              className="w-12 h-full flex items-center justify-center text-on-surface-variant hover:bg-black/5 transition-colors"
+                            >
+                              <span className="material-symbols-outlined text-[20px]">remove</span>
+                            </button>
+                            <span className="w-10 text-center font-extrabold font-headline text-on-surface">{item.qty}</span>
+                            <button 
+                              onClick={() => addToCart(item)}
+                              className="w-12 h-full flex items-center justify-center text-on-surface-variant hover:bg-black/5 transition-colors"
+                            >
+                              <span className="material-symbols-outlined text-[20px]">add</span>
+                            </button>
+                          </div>
+                          <button 
+                            onClick={() => removeFromCart(item.id)}
+                            className="w-[44px] h-[44px] rounded-xl bg-transparent flex items-center justify-center border border-[#E8EAE7] text-outline-variant hover:text-error transition-colors"
+                          >
+                            <span className="material-symbols-outlined text-[22px]">delete</span>
+                          </button>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="lg:w-[240px] flex flex-col justify-between items-end lg:pl-10 lg:border-l-2 border-surface-container/50 py-2">
-                    <div className="text-right">
-                      <p className="text-[10px] text-outline-variant font-extrabold uppercase tracking-[0.2em] mb-1">Impact Total</p>
-                      <p className="text-3xl font-extrabold text-primary font-headline tracking-tighter leading-tight">Rs. 485.00</p>
+                  ))}
+                  
+                  {cart.length === 0 && (
+                    <div className="bg-white rounded-[16px] p-12 text-center">
+                       <p className="text-outline-variant font-bold">No items in your cart. <Link to="/" className="text-primary hover:underline">Shop now</Link></p>
                     </div>
-                    <div className="flex flex-col gap-4 w-full mt-10">
-                      <button className="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-xl font-extrabold text-base shadow-[0px_12px_24px_rgba(0,81,41,0.2)] active:scale-95 transition-all">Re-order Basket</button>
-                      <Link className="text-center text-outline font-extrabold text-xs uppercase tracking-widest hover:text-primary transition-all underline underline-offset-8 decoration-primary/20" to="#">View Details</Link>
-                    </div>
-                  </div>
+                  )}
+                </div>
+
+                {/* Promo Code Area */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <input 
+                    type="text" 
+                    placeholder="Enter promo code"
+                    className="flex-grow bg-white rounded-xl px-6 py-4 border border-surface-container/50 focus:outline-none focus:border-primary/30 font-bold transition-all placeholder:text-outline-variant/60"
+                  />
+                  <button className="bg-[#004D2C] text-white px-10 py-4 rounded-xl font-headline font-extrabold tracking-tight hover:opacity-90 active:scale-95 transition-all">Apply</button>
                 </div>
               </div>
+              
+              <Link to="/" className="inline-flex items-center gap-2 mt-8 text-[#004D2C] font-extrabold hover:translate-x-[-4px] transition-transform">
+                <span className="material-symbols-outlined">arrow_back</span> Continue shopping
+              </Link>
+            </div>
 
-              {/* Order Card: Living Progress */}
-              <div className="bg-surface-container-lowest rounded-[12px] p-8 shadow-[0px_12px_32px_rgba(28,28,24,0.06)] relative overflow-hidden group border-none">
-                <div className="absolute top-0 left-0 w-2 h-full bg-secondary-fixed"></div>
-                <div className="flex flex-col lg:flex-row gap-10 ml-2">
-                  <div className="lg:w-[280px]">
-                    <h3 className="text-2xl font-extrabold text-on-surface font-headline mb-2 tracking-tight">Modern Dairy Farm</h3>
-                    <p className="text-base text-outline-variant font-bold mb-6 font-headline tracking-wide">Today, 10:30 AM</p>
-                    <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-extrabold uppercase tracking-widest">
-                      <span className="material-symbols-outlined text-[18px]">local_shipping</span>
-                      In Transit
-                    </span>
+            {/* Right Column: Order Summary */}
+            <div className="lg:w-[350px]">
+              <div className="bg-white rounded-[32px] p-8 shadow-[0px_48px_96px_rgba(0,0,0,0.04)] border border-surface-container/20 sticky top-[120px]">
+                <h2 className="text-2xl font-extrabold font-headline text-[#004D2C] mb-8">Order summary</h2>
+                
+                <div className="space-y-5 mb-8">
+                  <div className="flex justify-between items-center text-sm font-bold">
+                    <span className="text-outline">Subtotal</span>
+                    <span className="text-on-surface font-extrabold">Rs.{subtotal}</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-4 bg-surface-container/50 p-6 rounded-2xl mb-6">
-                      <div className="w-16 h-16 rounded-xl bg-emerald-50 flex items-center justify-center text-4xl shadow-sm">🥛</div>
-                      <div>
-                        <p className="text-lg font-extrabold text-on-surface">Cow Ghee (Organic)</p>
-                        <p className="text-xs font-bold text-outline-variant uppercase">500ml Glass Jar</p>
-                      </div>
+                  <div className="flex justify-between items-center text-sm font-bold">
+                    <span className="text-outline">Delivery fee</span>
+                    <span className="bg-[#A0D48C] text-[#004D2C] px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">FREE</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm font-bold">
+                    <span className="text-outline">GST (5%)</span>
+                    <span className="text-on-surface font-extrabold">Rs.{gst}</span>
+                  </div>
+                </div>
+
+                <div className="bg-[#E6F3E6] rounded-xl p-4 mb-10 flex justify-between items-center border border-primary/10">
+                   <span className="text-[11px] font-black uppercase text-[#004D2C] tracking-widest">Savings</span>
+                   <span className="text-[11px] font-bold text-[#004D2C]">You save Rs.20 on delivery</span>
+                </div>
+
+                <div className="flex justify-between items-end mb-10">
+                  <span className="text-lg font-extrabold font-headline text-on-surface">Grand total</span>
+                  <span className="text-2xl font-extrabold font-headline text-[#004D2C]">Rs.{grandTotal}</span>
+                </div>
+
+                <div className="space-y-4 mb-10">
+                  {/* Delivery Address Card */}
+                  <div className="bg-[#F8F9F8] border border-surface-container rounded-2xl p-5 flex items-start gap-4">
+                    <div className="bg-[#E8EAE7] p-2 rounded-xl">
+                       <span className="material-symbols-outlined text-outline text-[20px]">location_on</span>
                     </div>
-                    <div className="p-4 bg-secondary-fixed/10 rounded-xl inline-flex items-center gap-3 w-full border border-secondary-fixed/20 shadow-sm">
-                       <div className="w-2.5 h-2.5 rounded-full bg-secondary-fixed animate-ping"></div>
-                       <span className="text-sm font-extrabold text-on-secondary-fixed font-headline uppercase tracking-wide">Arriving in 15 mins • Out with Nitish</span>
+                    <div className="flex-grow">
+                       <div className="flex justify-between items-center mb-0.5">
+                          <span className="text-[10px] font-black uppercase text-outline tracking-wider">Delivery Address</span>
+                          <button className="text-[10px] font-black uppercase text-primary hover:underline">Change</button>
+                       </div>
+                       <p className="text-[13px] font-extrabold text-on-surface leading-tight">Sector 21, Chandigarh</p>
                     </div>
                   </div>
-                  <div className="lg:w-[240px] flex flex-col justify-between items-end lg:pl-10 lg:border-l-2 border-surface-container/50 py-2">
-                    <div className="text-right">
-                      <p className="text-[10px] text-outline-variant font-extrabold uppercase tracking-[0.2em] mb-1">Impact Total</p>
-                      <p className="text-3xl font-extrabold text-primary font-headline tracking-tighter leading-tight">Rs. 192.00</p>
+
+                  {/* Payment Method Card */}
+                  <div className="bg-[#F8F9F8] border border-surface-container rounded-2xl p-5 flex items-start gap-4">
+                    <div className="bg-[#E8EAE7] p-2 rounded-xl">
+                       <span className="material-symbols-outlined text-outline text-[20px]">payments</span>
                     </div>
-                    <div className="flex flex-col gap-4 w-full mt-10">
-                      <button className="w-full bg-surface-container text-on-surface-variant font-extrabold py-4 rounded-xl text-base hover:bg-surface transition-all shadow-sm">Track Progress</button>
+                    <div className="flex-grow">
+                       <div className="flex justify-between items-center mb-0.5">
+                          <span className="text-[10px] font-black uppercase text-outline tracking-wider">Payment Method</span>
+                          <button className="text-[10px] font-black uppercase text-primary hover:underline">Change</button>
+                       </div>
+                       <p className="text-[13px] font-extrabold text-on-surface leading-tight">Cash on Delivery (COD)</p>
                     </div>
                   </div>
                 </div>
+
+                <button 
+                  onClick={() => navigate('/success')}
+                  className="w-full bg-[#004D2C] text-white py-5 rounded-2xl font-headline font-extrabold text-xl shadow-lg shadow-primary/20 hover:opacity-90 active:scale-[0.98] transition-all flex justify-between items-center px-8"
+                >
+                  <span>Place order</span>
+                  <span className="text-sm opacity-80 decoration-white/30 decoration-2">Rs.{grandTotal}</span>
+                </button>
               </div>
             </div>
-          </section>
+          </div>
         </div>
-        <Footer />
       </main>
+
+      <Footer />
     </div>
   );
 };
