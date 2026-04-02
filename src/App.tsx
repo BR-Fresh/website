@@ -7,6 +7,12 @@ import TrackOrder from './pages/TrackOrder';
 import Profile from './pages/Profile';
 import AuthModal from './components/AuthModal';
 
+import TermsConditions from './pages/TermsConditions';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import ShippingPolicy from './pages/ShippingPolicy';
+import ContactUs from './pages/ContactUs';
+import RefundPolicy from './pages/RefundPolicy';
+
 function App() {
   return (
     <Router>
@@ -18,6 +24,11 @@ function App() {
         <Route path="/success" element={<Success />} />
         <Route path="/track" element={<TrackOrder />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/terms" element={<TermsConditions />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/shipping" element={<ShippingPolicy />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/refund" element={<RefundPolicy />} />
       </Routes>
     </Router>
   );
