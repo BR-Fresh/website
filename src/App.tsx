@@ -13,9 +13,12 @@ import ShippingPolicy from './pages/ShippingPolicy';
 import ContactUs from './pages/ContactUs';
 import RefundPolicy from './pages/RefundPolicy';
 
+import ScrollToTop from './components/ScrollToTop';
+
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <AuthModal />
       <Routes>
         <Route path="/" element={<Home />} />
